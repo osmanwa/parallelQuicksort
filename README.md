@@ -1,4 +1,4 @@
-# pQsort
+# parallel_quicksort
 final project 
 
 to enable openmp on mac you must direct clion to use gcc/g-- as the default is clang

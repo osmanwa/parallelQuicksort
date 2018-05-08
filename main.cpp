@@ -3,9 +3,11 @@
 #include <random>
 #include <iostream>
 
-#define MAX_LIST_SIZE 1000000000
-#define MIN_LIST_SIZE 100000000
+#define MAX_LIST_SIZE 100000000
+#define MIN_LIST_SIZE 1000000
 #define NUM_TRIALS 3
+#define STEP 1000000
+#define THRESHOLD 1000000
 
 using namespace std;
 
@@ -22,7 +24,7 @@ int main(int argc, char* argv[]) {
     double runTime, sum, avgRunTime;
 
     cout << "serial" << endl;
-    for (listSize = MIN_LIST_SIZE; listSize < MAX_LIST_SIZE; listSize++) {
+    for (listSize = MIN_LIST_SIZE; listSize <= MAX_LIST_SIZE; listSize += STEP) {
         for (int trialNum = 0; trialNum < NUM_TRIALS; trialNum++) {
             list = fillList();
             startTime = clock();
@@ -30,16 +32,16 @@ int main(int argc, char* argv[]) {
             runTime = (double) (clock() - startTime);
             sum += runTime;
         }
+        avgRunTime =  sum / NUM_TRIALS;
+        cout << listSize << "\t";
+        printRunTime(avgRunTime);
+        cout << endl;
     }
-    avgRunTime =  sum / NUM_TRIALS;
-    cout << listSize << "\t";
-    printRunTime(avgRunTime);
-    cout << endl;
 
     sum = 0;
 
     cout << "parallel" << endl;
-    for (listSize = MIN_LIST_SIZE; listSize < MAX_LIST_SIZE; listSize++) {
+    for (listSize = MIN_LIST_SIZE; listSize <= MAX_LIST_SIZE; listSize += STEP) {
         for (int trialNum = 0; trialNum < NUM_TRIALS; trialNum++) {
             list = fillList();
             startTime = clock();
@@ -48,11 +50,11 @@ int main(int argc, char* argv[]) {
             runTime = (double) (clock() - startTime);
             sum += runTime;
         }
-    }
-    avgRunTime =  sum / NUM_TRIALS;
-    cout << listSize << "\t";
-    printRunTime(avgRunTime);
-    cout << endl;
+        avgRunTime =  sum / NUM_TRIALS;
+        cout << listSize << "\t";
+        printRunTime(avgRunTime);
+        cout << endl;
+//    }
 
     return 0;
 }
@@ -76,7 +78,7 @@ void doParallelQuicksort(int left, int right) {
             j--;
         }
     }
-    if (right-left < 1000) {
+    if (right-left < THRESHOLD) {
         doSerialQuicksort(left, j);
         doSerialQuicksort(i, right);
 
