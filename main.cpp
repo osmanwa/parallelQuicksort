@@ -9,6 +9,8 @@
 #define STEP 1000000
 #define THRESHOLD 1000000
 
+
+
 using namespace std;
 
 vector<int> list;
