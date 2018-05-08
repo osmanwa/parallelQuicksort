@@ -96,7 +96,6 @@ void doParallelQuicksort(int left, int right) {
 
 }
 
-
 // run sequential version of quicksort
 void doSerialQuicksort(int left, int right) {
     int i = left, j = right;
